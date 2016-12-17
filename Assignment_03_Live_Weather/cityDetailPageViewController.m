@@ -79,14 +79,14 @@
     [_currentLowTempLabel setFont:[UIFont boldSystemFontOfSize:32.0]];
     [self.view addSubview:_currentLowTempLabel];
     
-    UIFont *font = [UIFont fontWithName:@"Climacons" size:72];
+    UIFont *font = [UIFont fontWithName:@"CLIMACONS_FONT" size:72];
     _currentWeatherLogoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 100)];
     _currentWeatherLogoLabel.center = CGPointMake(ScreenWidth / 2, ScreenHeight / 2 - 100);
     _currentWeatherLogoLabel.textAlignment = NSTextAlignmentCenter;
     _currentWeatherLogoLabel.textColor = [UIColor whiteColor];
     _currentWeatherLogoLabel.backgroundColor = [UIColor clearColor];
     [_currentWeatherLogoLabel setFont:font];
-    _currentWeatherLogoLabel.text = @"Mist";
+    _currentWeatherLogoLabel.text = [NSString stringWithFormat:@"%c", 'A'];
     [self.view addSubview:_currentWeatherLogoLabel];
     
 }

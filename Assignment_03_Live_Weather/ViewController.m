@@ -18,6 +18,7 @@
 @property NSMutableArray *cityZipList;
 @property (nonatomic, strong) UITableView *cityWeatherTable;
 @property (nonatomic, strong) UIBarButtonItem *addButton;
+@property (nonatomic, strong) UIBarButtonItem *switchUnitButton;
 
 @end
 
@@ -30,8 +31,12 @@
     _apiURL = @"http://api.openweathermap.org/data/2.5/weather?APPID=c1fc8e4fc47d6d6ba9b87c77d8d657bf&zip=us,";
     _tempUnit = @"&units=imperial"; // &units=imperial or metric
     
-    _cityZipList = [[NSMutableArray alloc] init];
+    //_cityZipList = [[NSMutableArray alloc] init];
     [self loadUserDefaults];
+    if(_cityZipList == NULL) {
+        _cityZipList = [[NSMutableArray alloc] init];
+    }
+    
     if(![_cityZipList containsObject:@"48197"]){
         [_cityZipList addObject:@"48197"];
     }
@@ -46,6 +51,9 @@
     _addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(addCity)];
     self.navigationController.navigationBar.topItem.rightBarButtonItem = _addButton;
     
+    _switchUnitButton = [[UIBarButtonItem alloc] initWithTitle:@"F\u00B0" style:UIBarButtonItemStylePlain target:self action:@selector(switchUnit)];
+    self.navigationController.navigationBar.topItem.leftBarButtonItem = _switchUnitButton;
+    
     _cityWeatherTable = [[UITableView alloc] init];
     _cityWeatherTable.dataSource = self;
     _cityWeatherTable.delegate = self;
@@ -53,9 +61,6 @@
     UINib *nib = [UINib nibWithNibName:@"CityCell" bundle:nil];
     [_cityWeatherTable registerNib:nib forCellReuseIdentifier:@"cityCell"];
     [self.view addSubview:_cityWeatherTable];
-
-    // load user defaults data
-    //[self loadUserDefaults];
     
 }
 
@@ -64,9 +69,20 @@
     [_cityWeatherTable reloadData];
 }
 
-- (void)addCity{
+- (void)addCity {
     addCityPageViewController *addPage = [[addCityPageViewController alloc] init];
     [self.navigationController pushViewController:addPage animated:YES];
+}
+
+- (void)switchUnit {
+    if([_tempUnit isEqual:@"&units=imperial"]) {
+        _tempUnit = @"&units=metric";
+        _switchUnitButton.title = @"C\u00B0";
+    } else {
+        _tempUnit = @"&units=imperial";
+        _switchUnitButton.title = @"F\u00B0";
+    }
+    [_cityWeatherTable reloadData];
 }
 
 - (void)loadUserDefaults{
