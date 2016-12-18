@@ -129,6 +129,10 @@
                            
                            cell.cityLabel.text = parsedJSONArray[@"name"];
                            NSMutableDictionary *temp = parsedJSONArray[@"main"];
+                           
+                           
+//                        cell.tempLabel.text = [[NSString stringWithFormat:@"%.02f",temp[@"temp"]] stringByAppendingString:@"\u00B0"];
+                           
                            cell.tempLabel.text = [[temp[@"temp"] stringValue]  stringByAppendingString:@"\u00B0"];
                        });
     }];
