@@ -11,6 +11,9 @@
 #import "addCityPageViewController.h"
 #import "cityDetailPageViewController.h"
 
+#define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
+#define ScreenHeight  [[UIScreen mainScreen] bounds].size.height
+
 @interface ViewController ()
 
 @property NSString *apiURL;
@@ -114,6 +117,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cityCell"];
+    cell.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
     cell.zipLabel.text = _cityZipList[indexPath.row];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -129,9 +133,6 @@
                            
                            cell.cityLabel.text = parsedJSONArray[@"name"];
                            NSMutableDictionary *temp = parsedJSONArray[@"main"];
-                           
-                           
-//                        cell.tempLabel.text = [[NSString stringWithFormat:@"%.02f",temp[@"temp"]] stringByAppendingString:@"\u00B0"];
                            
                            cell.tempLabel.text = [[temp[@"temp"] stringValue]  stringByAppendingString:@"\u00B0"];
                        });
@@ -167,19 +168,12 @@
         [self saveUserDefaults];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } //else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    //}
+    }
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Your custom operation
-    //    AlgorithmDetailViewController *detailPage = [[AlgorithmDetailViewController alloc] init];
-    //    detailPage.problemData = [_problemArray objectAtIndex:indexPath.row];
-    //    [self.navigationController pushViewController:detailPage animated:YES];
-    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     NSString *targetURL = [[_apiURL stringByAppendingString:_cityZipList[indexPath.row]] stringByAppendingString:_tempUnit];
     

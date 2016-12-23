@@ -6,15 +6,6 @@
 //  Copyright © 2016 LILouis. All rights reserved.
 //
 
-//
-//  addCityPageViewController.m
-//  Assignment_03_Live_Weather
-//
-//  Created by LILouis on 12/17/16.
-//  Copyright © 2016 LILouis. All rights reserved.
-//
-
-
 #import "cityDetailPageViewController.h"
 
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
@@ -27,7 +18,7 @@
 @property (strong, nonatomic) UILabel *currentLowTempLabel;
 @property (strong, nonatomic) UILabel *currentHighTempLabel;
 @property (strong, nonatomic) UILabel *currentWeatherLabel;
-@property (strong, nonatomic) UILabel *currentWeatherLogoLabel;
+@property (strong, nonatomic) UIImageView *currentWeatherLogo;
 
 @end
 
@@ -79,32 +70,55 @@
     [_currentLowTempLabel setFont:[UIFont boldSystemFontOfSize:32.0]];
     [self.view addSubview:_currentLowTempLabel];
     
-    UIFont *font = [UIFont fontWithName:@"CLIMACONS_FONT" size:72];
-    _currentWeatherLogoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 100)];
-    _currentWeatherLogoLabel.center = CGPointMake(ScreenWidth / 2, ScreenHeight / 2 - 100);
-    _currentWeatherLogoLabel.textAlignment = NSTextAlignmentCenter;
-    _currentWeatherLogoLabel.textColor = [UIColor whiteColor];
-    _currentWeatherLogoLabel.backgroundColor = [UIColor clearColor];
-    [_currentWeatherLogoLabel setFont:font];
-    _currentWeatherLogoLabel.text = [NSString stringWithFormat:@"%c", 'A'];
-    [self.view addSubview:_currentWeatherLogoLabel];
-    
+    _currentWeatherLogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    _currentWeatherLogo.center = CGPointMake(ScreenWidth / 2, ScreenHeight / 3);
+    [self.view addSubview:_currentWeatherLogo];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     NSArray *weatherArray = _weatherInfo[@"weather"];
     NSMutableDictionary *mainWeather = weatherArray[0];
     NSMutableDictionary *tempInfo = _weatherInfo[@"main"];
-    //NSString *currentTempString = [[NSString stringWithFormat:@"%.02f", tempInfo[@"temp"]] stringByAppendingString:@"\u00B0"];
     
     _cityNameLabel.text = _weatherInfo[@"name"];
     _currentWeatherLabel.text = mainWeather[@"main"];
     _currentTempLabel.text = [[tempInfo[@"temp"] stringValue] stringByAppendingString:@"\u00B0"];
     _currentHighTempLabel.text = [[tempInfo[@"temp_max"] stringValue] stringByAppendingString:@"\u00B0"];
     _currentLowTempLabel.text = [[tempInfo[@"temp_min"] stringValue] stringByAppendingString:@"\u00B0"];
+    
+
+    NSArray *weathers = @[@"Thunderstorm", @"Drizzle", @"Rain", @"Snow", @"Atmosphere", @"Clear", @"Clouds"];
+    int index = [weathers indexOfObject:mainWeather[@"main"]];
+    NSLog(@"==> %d ", index);
+    switch (index) {
+        case 0:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Thunderstorm.png"];
+            break;
+        case 1:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Drizzle.png"];
+            break;
+        case 2:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Rain.png"];
+            break;
+        case 3:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Snow.png"];
+            break;
+        case 4:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Atmosphere.png"];
+            break;
+        case 5:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Clear.png"];
+            break;
+        case 6:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Clouds.png"];
+            break;
+        default:
+            _currentWeatherLogo.image = [UIImage imageNamed:@"Default.png"];
+            break;
+    }
+    
+    
 }
-
-
 
 
 
